@@ -6,15 +6,26 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const screen = params.get("screen") || "usage";
-    const fallbackURL = "https://play.google.com/store/apps/details?id=in.onionlife.karmalife";
-    const appURL = `karma://klapp/dlink/${screen}`;
+    const appLink = `karma://klapp/dlink/${screen}`;
+    const marketLink = "market://details?id=in.onionlife.karmalife";
+    const webFallback = "https://play.google.com/store/apps/details?id=in.onionlife.karmalife";
 
-    setTimeout(() => {
-      window.location.href = fallbackURL;
-    }, 1500);
+    function isAndroid() {
+      return /android/i.test(navigator.userAgent);
+    }
+
+    function openFallback() {
+      if (isAndroid()) {
+        window.location.href = marketLink;
+      } else {
+        window.location.href = webFallback;
+      }
+    }
+
+    setTimeout(openFallback, 1500);
   </script>
 </head>
-<body onload="window.location = appURL;">
-  <p>Opening app… If nothing happens, <a href="https://play.google.com/store/apps/details?id=in.onionlife.karmalife">click here</a>.</p>
+<body onload="window.location = appLink;">
+  <p>Redirecting to app... If nothing happens, <a href="https://play.google.com/store/apps/details?id=in.onionlife.karmalife">click here</a>.</p>
 </body>
 </html>
